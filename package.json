@@ -1,0 +1,1 @@
+{"name":"developer-portfolio","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"vite","api":"node --env-file-if-exists=.env server.js","build":"vite build","start":"node --env-file-if-exists=.env server.js"},"dependencies":{"express":"^5.1.0","mongodb":"^6.17.0","react":"^19.1.0","react-dom":"^19.1.0","vite":"^6.3.5"}}

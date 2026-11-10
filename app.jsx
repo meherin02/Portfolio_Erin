@@ -1,0 +1,122 @@
+import React, {useEffect, useState} from 'react';
+import {createRoot} from 'react-dom/client';
+import {profile, projects} from './content.js';
+import './style.css';
+
+function ProjectVisual({project}) {
+  return project.image
+    ? <img className="project-image" src={project.image} alt={project.imageAlt || project.title} loading="lazy" />
+    : <div className="visual" aria-hidden="true"><span>{project.title}</span><div>{project.visual.map(label => <i key={label}>{label}<b /><b /><b /></i>)}</div></div>;
+}
+
+function Trace({steps}) {
+  const [active, setActive] = useState(0);
+  return <section className="panel"><p className="eyebrow">INTERACTIVE WALKTHROUGH</p><h2>Request trace</h2>
+    <div className="actions">{steps.map(([label], index) => <button key={label} type="button" aria-pressed={active === index} onClick={() => setActive(index)}>{label}</button>)}</div>
+    <p aria-live="polite">{steps[active][1]}</p></section>;
+}
+
+function Contact() {
+  const [message, setMessage] = useState('');
+  const [sending, setSending] = useState(false);
+  async function submit(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    setSending(true);
+    setMessage('Sending your message...');
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error);
+      form.reset();
+      setMessage('Your message was received.');
+    } catch {
+      setMessage('Your message could not be sent. Please try again or use the email link if available.');
+    } finally {
+      setSending(false);
+    }
+  }
+  return <section id="contact" className="section"><p className="eyebrow">03 / CONTACT</p><h2>Let's talk.</h2>
+    {profile.email && <div className="actions"><a href={'mailto:' + profile.email}>{profile.email}</a><button onClick={async () => {
+      try { await navigator.clipboard.writeText(profile.email); setMessage('Email copied.'); }
+      catch { setMessage('Copy unavailable. You can select the email address above.'); }
+    }}>Copy email</button></div>}
+    {profile.contactForm && <form onSubmit={submit}>
+      <label>Name<input name="name" required maxLength="100" autoComplete="name" /></label>
+      <label>Email<input name="email" type="email" required maxLength="254" autoComplete="email" /></label>
+      <label>Message<textarea name="message" required maxLength="4000" rows="5" /></label>
+      <button className="primary" disabled={sending}>Send message</button>
+    </form>}
+    {!profile.email && !profile.contactForm && <p>Contact details coming soon.</p>}
+    <p role="status">{message}</p>
+    <div className="actions">{profile.github && <a href={profile.github}>GitHub</a>}{profile.linkedin && <a href={profile.linkedin}>LinkedIn</a>}</div>
+  </section>;
+}
+
+function Home() {
+  return <>
+    <section className="hero" aria-labelledby="headline">
+      <div className="intro"><p className="eyebrow">{profile.role}</p><h1 id="headline">{profile.headline}</h1><p>{profile.intro}</p></div>
+      <figure className="portrait">{profile.portrait.src
+        ? <img src={profile.portrait.src} alt={profile.portrait.alt} style={{objectPosition: profile.portrait.position}} />
+        : <div className="placeholder"><span aria-hidden="true">+</span><strong>Professional photo</strong><small>Headshot placeholder</small></div>}</figure>
+      <div className="actions hero-actions"><a className="primary" href="#work">Explore my work <span aria-hidden="true">&darr;</span></a><a className="button" href="#contact">Get in touch</a></div>
+    </section>
+    <section id="work" className="section"><p className="eyebrow">01 / PORTFOLIO</p><h2>Selected work</h2>
+      <div className="projects">{projects.map((project, index) => <article key={project.slug}>
+        <ProjectVisual project={project} />
+        <div className="card-copy"><p className="eyebrow">{String(index+1).padStart(2,'0')} / {project.sample ? 'Sample project' : project.role}</p>
+        <h3><a href={'/projects/' + project.slug}>{project.title} <span aria-hidden="true">&nearr;</span></a></h3><p>{project.summary}</p>
+        <ul className="tags">{project.stack.map(tag => <li key={tag}>{tag}</li>)}</ul></div>
+      </article>)}</div>
+    </section>
+    <section id="about" className="section"><p className="eyebrow">02 / INTRODUCTION</p><h2>About me</h2><p>{profile.about || 'My background and development interests will appear here.'}</p></section>
+    <Contact />
+  </>;
+}
+
+function CaseStudy({project}) {
+  const next = projects[(projects.indexOf(project) + 1) % projects.length];
+  return <div className="case"><a href="/#work">&larr; Selected work</a>
+    <p className="eyebrow">{project.sample ? 'Illustrative case study' : project.role}</p>
+    <h1>{project.title}</h1><p>{project.summary}</p><ProjectVisual project={project} />
+    <section><h2>The problem</h2><p>{project.problem}</p><h2>The approach</h2><p>{project.approach}</p><h2>Outcome</h2><p>{project.outcome}</p></section>
+    {project.trace && <Trace steps={project.trace} />}
+    <div className="actions">{project.live && <a href={project.live}>Live demo</a>}{project.source && <a href={project.source}>Source code</a>}{next !== project && <a href={'/projects/' + next.slug}>Next project &rarr;</a>}</div>
+  </div>;
+}
+
+function App() {
+  const [menu, setMenu] = useState(false);
+  const path = window.location.pathname.replace(/\/$/, '') || '/';
+  const project = projects.find(item => path === '/projects/' + item.slug);
+  const title = project ? project.title + ' | ' + profile.name : path === '/' ? profile.name + ' | ' + profile.role : 'Page not found';
+  useEffect(() => {
+    document.title = title;
+    for (const [selector, value] of [
+      ['[name="description"]', project?.summary || profile.intro],
+      ['[property="og:description"]', project?.summary || profile.intro],
+      ['[property="og:title"]', title],
+    ]) document.querySelector(selector)?.setAttribute('content', value);
+    if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+  }, [title, project]);
+  return <>
+    <a className="skip" href="#main">Skip to content</a>
+    <header className="shell header" onKeyDown={event => {
+      if (event.key === 'Escape' && menu) {
+        setMenu(false);
+        document.getElementById('menu-toggle')?.focus();
+      }
+    }}>
+      <a className="brand" href="/"><span aria-hidden="true">[+]</span> {profile.name}</a>
+      <button id="menu-toggle" className="menu-toggle" aria-expanded={menu} aria-controls="nav" onClick={() => setMenu(!menu)}>{menu ? 'Close' : 'Menu'}</button>
+      <nav id="nav" className={menu ? 'open' : ''} aria-label="Primary">{['Work','About','Contact'].map(label => <a key={label} href={'/#' + label.toLowerCase()} onClick={() => setMenu(false)}>{label}</a>)}{profile.resume && <a href={profile.resume}>Resume</a>}</nav>
+    </header>
+    <main id="main" className="shell">{path === '/' ? <Home /> : project ? <CaseStudy project={project} /> : <section className="section"><h1>Page not found</h1><a href="/">Back to homepage</a></section>}</main>
+    <footer className="shell footer"><span>{profile.name}</span><a href="/">Back to home &uarr;</a></footer>
+  </>;
+}
+createRoot(document.getElementById('root')).render(<App />);
