@@ -11,7 +11,7 @@ function ProjectVisual({project}) {
 
 function Trace({steps}) {
   const [active, setActive] = useState(0);
-  return <section className="panel"><p className="eyebrow">INTERACTIVE WALKTHROUGH</p><h2>Request trace</h2>
+  return <section className="panel"><p className="eyebrow">INTERACTIVE WALKTHROUGH</p><h2>How it works</h2>
     <div className="actions">{steps.map(([label], index) => <button key={label} type="button" aria-pressed={active === index} onClick={() => setActive(index)}>{label}</button>)}</div>
     <p aria-live="polite">{steps[active][1]}</p></section>;
 }
@@ -70,7 +70,7 @@ function Home() {
         <ProjectVisual project={project} />
         <div className="card-copy"><p className="eyebrow">{String(index+1).padStart(2,'0')} / {project.sample ? 'Sample project' : project.role}</p>
         <h3><a href={'/projects/' + project.slug}>{project.title} <span aria-hidden="true">&nearr;</span></a></h3><p>{project.summary}</p>
-        <ul className="tags">{project.stack.map(tag => <li key={tag}>{tag}</li>)}</ul></div>
+        <ul className="tags">{project.stack.map(tag => <li key={tag}>{tag}</li>)}</ul>{project.live && <p><a href={project.live}>Live demo &nearr;</a></p>}</div>
       </article>)}</div>
     </section>
     <section id="about" className="section"><p className="eyebrow">02 / INTRODUCTION</p><h2>About me</h2><p>{profile.about || 'My background and development interests will appear here.'}</p></section>
@@ -83,7 +83,7 @@ function CaseStudy({project}) {
   return <div className="case"><a href="/#work">&larr; Selected work</a>
     <p className="eyebrow">{project.sample ? 'Illustrative case study' : project.role}</p>
     <h1>{project.title}</h1><p>{project.summary}</p><ProjectVisual project={project} />
-    <section><h2>The problem</h2><p>{project.problem}</p><h2>The approach</h2><p>{project.approach}</p><h2>Outcome</h2><p>{project.outcome}</p></section>
+    <section><h2>The problem</h2><p>{project.problem}</p><h2>The approach</h2><p>{project.approach}</p>{project.outcome && <><h2>Outcome</h2><p>{project.outcome}</p></>}</section>
     {project.trace && <Trace steps={project.trace} />}
     <div className="actions">{project.live && <a href={project.live}>Live demo</a>}{project.source && <a href={project.source}>Source code</a>}{next !== project && <a href={'/projects/' + next.slug}>Next project &rarr;</a>}</div>
   </div>;
