@@ -15,6 +15,8 @@ export const profile = {
 export const projects = [
   {
     slug: 'community-events', title: 'Community Events',
+    image: '/project-screenshots/community-events.png',
+    imageAlt: 'Community Events homepage with links to find and organize volunteer events',
     summary: 'A volunteering platform where people can discover, organize, and join local community service events.',
     role: 'Full-stack project', stack: ['Next.js', 'Express', 'MongoDB', 'BetterAuth'],
     visual: ['Discover', 'Organize', 'Join'],
@@ -30,6 +32,8 @@ export const projects = [
   },
   {
     slug: 'terrapulse-ai', title: 'TerraPulse AI',
+    image: '/project-screenshots/terrapulse-ai.png',
+    imageAlt: 'TerraPulse AI trend explorer showing investigation filters and statistical results',
     summary: 'A Team Neurastra project that uses NASA POWER data to explore how air temperatures around Dhaka have changed over time.',
     role: 'Team project', stack: ['NASA POWER data', 'Data visualization'],
     visual: ['Explore', 'Compare', 'Interpret'],
@@ -40,6 +44,8 @@ export const projects = [
   },
   {
     slug: 'fitlog', title: 'FitLog',
+    image: '/project-screenshots/fitlog.png',
+    imageAlt: 'FitLog workout planner homepage and exercise library',
     summary: 'A responsive workout planner for browsing exercises, building a daily routine, and tracking completed sets.',
     role: 'Web development project', stack: ['Next.js', 'Tailwind CSS'],
     visual: ['Browse', 'Plan', 'Track'],
@@ -50,6 +56,8 @@ export const projects = [
   },
   {
     slug: 'bazardor', title: 'BazarDor',
+    image: '/project-screenshots/bazardor.png',
+    imageAlt: 'BazarDor homepage showing grocery categories and prices in Bangla',
     summary: 'A Bengali-language grocery price tracker for checking essentials and comparing prices across markets.',
     role: 'Web development project', stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Supabase'],
     visual: ['Browse', 'Filter', 'Compare'],
