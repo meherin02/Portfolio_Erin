@@ -28,13 +28,6 @@ function ProjectVisual({project}) {
     : <div className="visual" aria-hidden="true"><span>{project.title}</span><div>{project.visual.map(label => <i key={label}>{label}<b /><b /><b /></i>)}</div></div>;
 }
 
-function Trace({steps}) {
-  const [active, setActive] = useState(0);
-  return <section className="panel"><p className="eyebrow">INTERACTIVE WALKTHROUGH</p><h2>How it works</h2>
-    <div className="actions">{steps.map(([label], index) => <button key={label} type="button" aria-pressed={active === index} onClick={() => setActive(index)}>{label}</button>)}</div>
-    <p aria-live="polite">{steps[active][1]}</p></section>;
-}
-
 function Contact() {
   const [message, setMessage] = useState('');
   const [sending, setSending] = useState(false);
@@ -85,11 +78,11 @@ function Home() {
       <div className="actions hero-actions"><a className="primary" href="#work">Explore my work <span aria-hidden="true">&darr;</span></a><a className="button" href="#contact">Get in touch</a></div>
     </section>
     <section id="work" className="section"><p className="eyebrow">01 / PORTFOLIO</p><h2>Selected work</h2>
-      <div className="projects">{projects.map((project, index) => <article key={project.slug}>
+      <div className="projects">{projects.map((project, index) => <article id={project.slug} key={project.slug}>
         <ProjectVisual project={project} />
         <div className="card-copy"><p className="eyebrow">{String(index+1).padStart(2,'0')} / {project.sample ? 'Sample project' : project.role}</p>
-        <h3><a href={'/projects/' + project.slug}>{project.title} <span aria-hidden="true">&nearr;</span></a></h3><p>{project.summary}</p>
-        <SkillList skills={project.stack} /><div className="actions project-actions"><a className="button" href={'/projects/' + project.slug}>Project details</a>{project.live && <a href={project.live}>Live demo &nearr;</a>}{project.source && <a href={project.source}>Source code</a>}</div></div>
+        <h3>{project.title}</h3><p>{project.summary}</p>
+        <SkillList skills={project.stack} /></div>
       </article>)}</div>
     </section>
     <section id="about" className="section"><p className="eyebrow">02 / INTRODUCTION</p><h2>About me</h2><p>{profile.about || 'My background and development interests will appear here.'}</p></section>
@@ -104,18 +97,6 @@ function Home() {
   </>;
 }
 
-function CaseStudy({project}) {
-  const next = projects[(projects.indexOf(project) + 1) % projects.length];
-  return <div className="case"><a href="/#work">&larr; Selected work</a>
-    <p className="eyebrow">{project.sample ? 'Illustrative case study' : project.role}</p>
-    <h1>{project.title}</h1><p>{project.summary}</p><ProjectVisual project={project} />
-    <section><h2>The problem</h2><p>{project.problem}</p><h2>The approach</h2><p>{project.approach}</p>{project.outcome && <><h2>Outcome</h2><p>{project.outcome}</p></>}</section>
-    <section><h2>What you can do</h2><ul className="feature-list">{project.features.map(feature => <li key={feature}>{feature}</li>)}</ul><h2>Tools &amp; technologies</h2><SkillList skills={project.stack} /></section>
-    {project.trace && <Trace steps={project.trace} />}
-    <div className="actions">{project.live && <a href={project.live}>Live demo</a>}{project.source && <a href={project.source}>Source code</a>}{next !== project && <a href={'/projects/' + next.slug}>Next project &rarr;</a>}</div>
-  </div>;
-}
-
 function App() {
   const [menu, setMenu] = useState(false);
   const [theme, setTheme] = useState(() => {
@@ -127,17 +108,18 @@ function App() {
     try { localStorage.setItem('portfolio-theme', theme); } catch {}
   }, [theme]);
   const path = window.location.pathname.replace(/\/$/, '') || '/';
-  const project = projects.find(item => path === '/projects/' + item.slug);
-  const title = project ? project.title + ' | ' + profile.name : path === '/' ? profile.name + ' | ' + profile.role : 'Page not found';
+  const showHome = path === '/' || projects.some(project => path === '/projects/' + project.slug);
+  const title = showHome ? profile.name + ' | ' + profile.role : 'Page not found';
   useEffect(() => {
     document.title = title;
     for (const [selector, value] of [
-      ['[name="description"]', project?.summary || profile.intro],
-      ['[property="og:description"]', project?.summary || profile.intro],
+      ['[name="description"]', profile.intro],
+      ['[property="og:description"]', profile.intro],
       ['[property="og:title"]', title],
     ]) document.querySelector(selector)?.setAttribute('content', value);
-    if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
-  }, [title, project]);
+    const sectionId = location.hash.slice(1) || (path.startsWith('/projects/') ? path.slice('/projects/'.length) : '');
+    if (sectionId) document.getElementById(sectionId)?.scrollIntoView({behavior: 'instant'});
+  }, [title, path]);
   return <>
     <a className="skip" href="#main">Skip to content</a>
     <div id="top" /><div className="header-wrap"><header className="shell header" onKeyDown={event => {
@@ -151,7 +133,7 @@ function App() {
       <nav id="nav" className={menu ? 'open' : ''} aria-label="Primary">{navigation.map(([label, href]) => <a key={href} href={href} onClick={() => setMenu(false)}>{label}</a>)}{profile.resume && <a href={profile.resume}>Resume</a>}</nav>
       <button className="theme-toggle" type="button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</button>
     </header></div>
-    <main id="main" className="shell">{path === '/' ? <Home /> : project ? <CaseStudy project={project} /> : <section className="section"><h1>Page not found</h1><a href="/">Back to homepage</a></section>}</main>
+    <main id="main" className="shell">{showHome ? <Home /> : <section className="section"><h1>Page not found</h1><a href="/">Back to homepage</a></section>}</main>
     <Footer />
   </>;
 }

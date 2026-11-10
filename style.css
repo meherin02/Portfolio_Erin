@@ -16,9 +16,28 @@ form{display:grid;gap:1rem;max-width:34rem;margin-top:1.25rem}form button{justif
 .header-wrap{position:sticky;top:0;z-index:2;background:var(--bg);border-bottom:1px solid var(--line)}
 .header{border:0;padding:.8rem 0}.header nav{margin-left:auto}.theme-toggle{white-space:nowrap}
 .section{scroll-margin-top:6rem}.skip{z-index:3}
-.project-actions{gap:.75rem;margin-top:1rem}.project-actions .button{color:var(--text)}
+
 .project-image{object-position:top}.case .project-image{height:auto;aspect-ratio:auto}
 .skill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1.5rem}
 .skill-grid h3{margin:0 0 .8rem}.feature-list{padding-left:1.25rem;color:var(--muted);margin-bottom:1.75rem}
 .feature-list li+li{margin-top:.45rem}.footer-wrap{background:var(--panel);border-top:1px solid var(--line)}.footer{border:0;flex-wrap:wrap;padding:1.8rem 0}.footer p{margin:.35rem 0 0}.footer a:hover{color:var(--accent)}
 @media(max-width:760px){.header{flex-wrap:wrap;gap:.6rem}.header nav{display:none;order:3;margin:0;width:100%}.header nav.open{display:flex}.menu-toggle{display:inline-flex;margin-left:auto}.skill-grid{grid-template-columns:1fr}}
+
+.projects article { scroll-margin-top: 6rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+
+  @supports (animation-timeline: view()) {
+    .projects article, #about, #skills, #contact {
+      animation: portfolio-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 24%;
+    }
+  }
+}
+
+@keyframes portfolio-reveal {
+  from { opacity: .55; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
