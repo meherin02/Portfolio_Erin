@@ -15,6 +15,7 @@ export const profile = {
 export const projects = [
   {
     slug: 'community-events', title: 'Community Events',
+    features: ['Find upcoming volunteering opportunities.', 'Create and manage community service events.', 'Register to join an event through the platform.'],
     image: '/project-screenshots/community-events.png',
     imageAlt: 'Community Events homepage with links to find and organize volunteer events',
     summary: 'A volunteering platform where people can discover, organize, and join local community service events.',
@@ -32,6 +33,7 @@ export const projects = [
   },
   {
     slug: 'terrapulse-ai', title: 'TerraPulse AI',
+    features: ['Compare air temperature and precipitation trends across locations in Bangladesh.', 'Choose the location, variable, and range of years to investigate.', 'Review trend estimates, confidence intervals, and explanations alongside the charts.'],
     image: '/project-screenshots/terrapulse-ai.png',
     imageAlt: 'TerraPulse AI trend explorer showing investigation filters and statistical results',
     summary: 'A Team Neurastra project that uses NASA POWER data to explore how air temperatures around Dhaka have changed over time.',
@@ -44,6 +46,7 @@ export const projects = [
   },
   {
     slug: 'fitlog', title: 'FitLog',
+    features: ['Browse a library of twelve lifts organized around major muscle groups.', 'Save exercises and add them to a daily workout plan.', 'Log sets and track what you have completed.'],
     image: '/project-screenshots/fitlog.png',
     imageAlt: 'FitLog workout planner homepage and exercise library',
     summary: 'A responsive workout planner for browsing exercises, building a daily routine, and tracking completed sets.',
@@ -56,6 +59,7 @@ export const projects = [
   },
   {
     slug: 'bazardor', title: 'BazarDor',
+    features: ['Browse grocery categories and prices in Bangla.', 'Filter products and sort by price.', 'Compare listings across markets and see which prices moved up or down.'],
     image: '/project-screenshots/bazardor.png',
     imageAlt: 'BazarDor homepage showing grocery categories and prices in Bangla',
     summary: 'A Bengali-language grocery price tracker for checking essentials and comparing prices across markets.',

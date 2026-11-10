@@ -7,3 +7,18 @@
 form{display:grid;gap:1rem;max-width:34rem;margin-top:1.25rem}form button{justify-self:start}label{display:grid;gap:.3rem}input,textarea{background:var(--panel);color:var(--text);padding:.55rem;border:1px solid var(--line);border-radius:.4rem;width:100%}
 @media(max-width:680px){.shell{width:calc(100% - 2rem)}.header{flex-wrap:wrap}.menu-toggle{display:inline-flex}nav{display:none;width:100%}nav.open{display:flex}nav a{padding:.5rem 0}.hero{grid-template-columns:1fr;grid-template-areas:"intro" "portrait" "actions";gap:1.25rem}.portrait{justify-self:start;width:min(100%,17rem)}.projects{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+
+/* Navigation, theme, and project details */
+:root[data-theme=light]{color-scheme:light;--bg:#f3f8f4;--panel:#fff;--line:#a9bdb0;--text:#14291d;--muted:#425b4d;--accent:#17603c}
+[data-theme=light] body{background:radial-gradient(ellipse at 75% 8%,#d5eddd 0,transparent 31rem),var(--bg)}
+[data-theme=light] .primary,[data-theme=light] button[aria-pressed=true]{color:#fff}
+[data-theme=light] .button:hover,[data-theme=light] button:hover,[data-theme=light] .primary:hover{background:#d9efe2;color:var(--text)}
+.header-wrap{position:sticky;top:0;z-index:2;background:var(--bg);border-bottom:1px solid var(--line)}
+.header{border:0;padding:.8rem 0}.header nav{margin-left:auto}.theme-toggle{white-space:nowrap}
+.section{scroll-margin-top:6rem}.skip{z-index:3}
+.project-actions{gap:.75rem;margin-top:1rem}.project-actions .button{color:var(--text)}
+.project-image{object-position:top}.case .project-image{height:auto;aspect-ratio:auto}
+.skill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1.5rem}
+.skill-grid h3{margin:0 0 .8rem}.feature-list{padding-left:1.25rem;color:var(--muted);margin-bottom:1.75rem}
+.feature-list li+li{margin-top:.45rem}.footer-wrap{background:var(--panel);border-top:1px solid var(--line)}.footer{border:0;flex-wrap:wrap;padding:1.8rem 0}.footer p{margin:.35rem 0 0}.footer a:hover{color:var(--accent)}
+@media(max-width:760px){.header{flex-wrap:wrap;gap:.6rem}.header nav{display:none;order:3;margin:0;width:100%}.header nav.open{display:flex}.menu-toggle{display:inline-flex;margin-left:auto}.skill-grid{grid-template-columns:1fr}}

@@ -3,6 +3,25 @@ import {createRoot} from 'react-dom/client';
 import {profile, projects} from './content.js';
 import './style.css';
 
+const navigation = [['Home', '/'], ['Work', '/#work'], ['About', '/#about'], ['Skills', '/#skills'], ['Contact', '/#contact']];
+
+function SkillList({skills}) {
+  return <ul className="tags">{skills.map(skill => <li key={skill}>{skill}</li>)}</ul>;
+}
+
+function Footer() {
+  return <footer className="footer-wrap"><div className="shell footer">
+    <div><a className="brand" href="/">{profile.name}</a><p>{profile.role} · Fourth-year CSE student</p></div>
+    <div className="actions" aria-label="Portfolio links">
+      <a href="/#work">Projects</a>
+      {profile.github && <a href={profile.github}>GitHub</a>}
+      {profile.linkedin && <a href={profile.linkedin}>LinkedIn</a>}
+      {profile.email && <a href={'mailto:' + profile.email}>Email</a>}
+      <a href="#top">Back to top &uarr;</a>
+    </div>
+  </div></footer>;
+}
+
 function ProjectVisual({project}) {
   return project.image
     ? <img className="project-image" src={project.image} alt={project.imageAlt || project.title} loading="lazy" />
@@ -39,7 +58,7 @@ function Contact() {
       setSending(false);
     }
   }
-  return <section id="contact" className="section"><p className="eyebrow">03 / CONTACT</p><h2>Let's talk.</h2>
+  return <section id="contact" className="section"><p className="eyebrow">04 / CONTACT</p><h2>Let's talk.</h2>
     {profile.email && <div className="actions"><a href={'mailto:' + profile.email}>{profile.email}</a><button onClick={async () => {
       try { await navigator.clipboard.writeText(profile.email); setMessage('Email copied.'); }
       catch { setMessage('Copy unavailable. You can select the email address above.'); }
@@ -70,10 +89,17 @@ function Home() {
         <ProjectVisual project={project} />
         <div className="card-copy"><p className="eyebrow">{String(index+1).padStart(2,'0')} / {project.sample ? 'Sample project' : project.role}</p>
         <h3><a href={'/projects/' + project.slug}>{project.title} <span aria-hidden="true">&nearr;</span></a></h3><p>{project.summary}</p>
-        <ul className="tags">{project.stack.map(tag => <li key={tag}>{tag}</li>)}</ul>{project.live && <p><a href={project.live}>Live demo &nearr;</a></p>}</div>
+        <SkillList skills={project.stack} /><div className="actions project-actions"><a className="button" href={'/projects/' + project.slug}>Project details</a>{project.live && <a href={project.live}>Live demo &nearr;</a>}{project.source && <a href={project.source}>Source code</a>}</div></div>
       </article>)}</div>
     </section>
     <section id="about" className="section"><p className="eyebrow">02 / INTRODUCTION</p><h2>About me</h2><p>{profile.about || 'My background and development interests will appear here.'}</p></section>
+    <section id="skills" className="section"><p className="eyebrow">03 / TOOLKIT</p><h2>Skills &amp; technologies</h2>
+      <div className="skill-grid">
+        <div className="panel"><h3>Frontend</h3><SkillList skills={['React', 'Next.js', 'TypeScript', 'Tailwind CSS']} /></div>
+        <div className="panel"><h3>Backend &amp; auth</h3><SkillList skills={['Node.js', 'Express', 'BetterAuth']} /></div>
+        <div className="panel"><h3>Data</h3><SkillList skills={['MongoDB', 'Supabase']} /></div>
+      </div>
+    </section>
     <Contact />
   </>;
 }
@@ -84,6 +110,7 @@ function CaseStudy({project}) {
     <p className="eyebrow">{project.sample ? 'Illustrative case study' : project.role}</p>
     <h1>{project.title}</h1><p>{project.summary}</p><ProjectVisual project={project} />
     <section><h2>The problem</h2><p>{project.problem}</p><h2>The approach</h2><p>{project.approach}</p>{project.outcome && <><h2>Outcome</h2><p>{project.outcome}</p></>}</section>
+    <section><h2>What you can do</h2><ul className="feature-list">{project.features.map(feature => <li key={feature}>{feature}</li>)}</ul><h2>Tools &amp; technologies</h2><SkillList skills={project.stack} /></section>
     {project.trace && <Trace steps={project.trace} />}
     <div className="actions">{project.live && <a href={project.live}>Live demo</a>}{project.source && <a href={project.source}>Source code</a>}{next !== project && <a href={'/projects/' + next.slug}>Next project &rarr;</a>}</div>
   </div>;
@@ -91,6 +118,14 @@ function CaseStudy({project}) {
 
 function App() {
   const [menu, setMenu] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    try { return localStorage.getItem('portfolio-theme') === 'light' ? 'light' : 'dark'; }
+    catch { return 'dark'; }
+  });
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem('portfolio-theme', theme); } catch {}
+  }, [theme]);
   const path = window.location.pathname.replace(/\/$/, '') || '/';
   const project = projects.find(item => path === '/projects/' + item.slug);
   const title = project ? project.title + ' | ' + profile.name : path === '/' ? profile.name + ' | ' + profile.role : 'Page not found';
@@ -105,7 +140,7 @@ function App() {
   }, [title, project]);
   return <>
     <a className="skip" href="#main">Skip to content</a>
-    <header className="shell header" onKeyDown={event => {
+    <div id="top" /><div className="header-wrap"><header className="shell header" onKeyDown={event => {
       if (event.key === 'Escape' && menu) {
         setMenu(false);
         document.getElementById('menu-toggle')?.focus();
@@ -113,10 +148,11 @@ function App() {
     }}>
       <a className="brand" href="/"><span aria-hidden="true">[+]</span> {profile.name}</a>
       <button id="menu-toggle" className="menu-toggle" aria-expanded={menu} aria-controls="nav" onClick={() => setMenu(!menu)}>{menu ? 'Close' : 'Menu'}</button>
-      <nav id="nav" className={menu ? 'open' : ''} aria-label="Primary">{['Work','About','Contact'].map(label => <a key={label} href={'/#' + label.toLowerCase()} onClick={() => setMenu(false)}>{label}</a>)}{profile.resume && <a href={profile.resume}>Resume</a>}</nav>
-    </header>
+      <nav id="nav" className={menu ? 'open' : ''} aria-label="Primary">{navigation.map(([label, href]) => <a key={href} href={href} onClick={() => setMenu(false)}>{label}</a>)}{profile.resume && <a href={profile.resume}>Resume</a>}</nav>
+      <button className="theme-toggle" type="button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</button>
+    </header></div>
     <main id="main" className="shell">{path === '/' ? <Home /> : project ? <CaseStudy project={project} /> : <section className="section"><h1>Page not found</h1><a href="/">Back to homepage</a></section>}</main>
-    <footer className="shell footer"><span>{profile.name}</span><a href="/">Back to home &uarr;</a></footer>
+    <Footer />
   </>;
 }
 createRoot(document.getElementById('root')).render(<App />);
