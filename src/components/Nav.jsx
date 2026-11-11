@@ -95,8 +95,8 @@ export default function Nav({ active }) {
               </a>
             ))}
             {profile.resume && (
-              <a className="btn btn-outline btn-sm nav-resume" href={profile.resume} download onClick={close}>
-                <Icon name="download" size={15} /> Resume
+              <a className="btn btn-outline btn-sm nav-resume" href={profile.resume} target="_blank" rel="noopener noreferrer" onClick={close}>
+                Résumé
               </a>
             )}
             <div className="nav-socials">

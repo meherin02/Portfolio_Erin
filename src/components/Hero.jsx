@@ -60,8 +60,8 @@ export default function Hero() {
               Explore my projects <Icon name="arrowDown" size={16} />
             </a>
             {profile.resume ? (
-              <a className="btn btn-outline" href={profile.resume} download>
-                <Icon name="download" size={16} /> Download resume
+              <a className="btn btn-outline" href={profile.resume} target="_blank" rel="noopener noreferrer">
+                View résumé
               </a>
             ) : (
               <a className="btn btn-outline" href="#contact">Get in touch</a>

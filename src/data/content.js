@@ -27,9 +27,7 @@ export const profile = {
   email: 'meherjan0201@gmail.com',
   github: 'https://github.com/meherin02',
   linkedin: 'https://www.linkedin.com/in/meherin-jahan',
-  // Put a resume PDF in public/ (for example /meherin-jahan-resume.pdf) and set
-  // this field to its path. Resume buttons appear automatically once set.
-  resume: '',
+  resume: 'https://drive.google.com/file/d/1Ft6RJDhgbKGiB5BimMErOjOMLmjoB8Te/view?usp=drivesdk',
   // Set to true only when the Express + MongoDB contact API (server.js) is
   // running behind this site. Otherwise the form falls back to the visitor's
   // own email client via a pre-filled mailto link.

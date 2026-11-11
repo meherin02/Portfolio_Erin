@@ -22,15 +22,15 @@ export default function ResumeSection() {
             <h3><Icon name="download" size={17} /> Resume</h3>
             {profile.resume ? (
               <>
-                <p className="background-main">One page, PDF.</p>
+                <p className="background-main">My résumé</p>
                 <p className="background-sub">Education, projects, and technical skills at a glance.</p>
-                <a className="btn btn-primary" href={profile.resume} download>
-                  <Icon name="download" size={15} /> Download resume
+                <a className="btn btn-primary" href={profile.resume} target="_blank" rel="noopener noreferrer">
+                  View résumé
                 </a>
               </>
             ) : (
               <>
-                <p className="background-main">Available on request.</p>
+                <p className="background-main">Request a copy</p>
                 <p className="background-sub">
                   A one-page PDF covering my education, projects, and technical skills.
                 </p>
