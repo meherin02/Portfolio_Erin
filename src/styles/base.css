@@ -292,8 +292,14 @@ h3 {
 
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  transform: translateY(14px);
+  transition: opacity 0.45s var(--ease-out), transform 0.55s var(--ease-out);
+}
+
+.reveal:focus-within {
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
 .reveal.is-visible {

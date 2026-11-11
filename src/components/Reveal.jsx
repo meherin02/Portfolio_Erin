@@ -25,7 +25,7 @@ export default function Reveal({ as: Tag = 'div', className = '', delay = 0, chi
           observer.disconnect();
         }
       },
-      { threshold: 0.1, rootMargin: '0px 0px -6% 0px' },
+      { threshold: 0, rootMargin: '0px 0px -24px 0px' },
     );
     observer.observe(node);
     return () => observer.disconnect();
