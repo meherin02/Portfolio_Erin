@@ -1,0 +1,92 @@
+/* ==========================================================================
+   Design tokens — the single source of truth for colors, type, and spacing.
+   ========================================================================== */
+
+:root {
+  /* Typography */
+  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'SF Mono', monospace;
+
+  /* Type scale */
+  --text-xs: 0.78rem;
+  --text-sm: 0.875rem;
+  --text-md: 0.98rem;
+  --text-lg: 1.15rem;
+  --text-xl: 1.35rem;
+
+  /* Spacing scale */
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+  --space-7: 4.5rem;
+  --space-8: 6.5rem;
+
+  /* Radii */
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 16px;
+  --radius-xl: 20px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --transition-fast: 160ms var(--ease-out);
+  --transition-base: 240ms var(--ease-out);
+
+  /* Layout */
+  --shell-max: 72rem;
+  --header-height: 4.25rem;
+
+  /* Dark theme (default) — deep charcoal, cyan accent, mint secondary */
+  --bg: #0b0e12;
+  --bg-2: #0e1217;
+  --surface: #12171e;
+  --surface-2: #171d25;
+  --line: #232b35;
+  --line-soft: #1a212a;
+  --line-strong: #33404e;
+  --text: #edf1f6;
+  --text-2: #aeb9c5;
+  --text-3: #77828f;
+  --accent: #45d6f4;
+  --accent-strong: #6fe3fa;
+  --accent-ink: #052530;
+  --mint: #98f4bd;
+  --danger: #ff8f88;
+  --grid-line: rgba(237, 241, 246, 0.045);
+  --glow-1: rgba(69, 214, 244, 0.075);
+  --glow-2: rgba(152, 244, 189, 0.05);
+  --shadow-1: 0 4px 18px rgba(2, 4, 8, 0.4);
+  --shadow-2: 0 12px 34px rgba(2, 4, 8, 0.5);
+  --scrim: rgba(4, 6, 10, 0.72);
+  color-scheme: dark;
+}
+
+[data-theme='light'] {
+  /* Light theme — warm off-white, deep teal accent */
+  --bg: #f6f8fa;
+  --bg-2: #eef2f5;
+  --surface: #ffffff;
+  --surface-2: #f0f4f6;
+  --line: #dde4ea;
+  --line-soft: #e7ecf1;
+  --line-strong: #c2ccd6;
+  --text: #161c23;
+  --text-2: #47545f;
+  --text-3: #6d7a86;
+  --accent: #0a7ca4;
+  --accent-strong: #08648a;
+  --accent-ink: #ffffff;
+  --mint: #128a5e;
+  --danger: #b3423a;
+  --grid-line: rgba(22, 28, 35, 0.05);
+  --glow-1: rgba(10, 124, 164, 0.07);
+  --glow-2: rgba(18, 138, 94, 0.05);
+  --shadow-1: 0 4px 18px rgba(22, 28, 35, 0.08);
+  --shadow-2: 0 12px 34px rgba(22, 28, 35, 0.13);
+  --scrim: rgba(22, 28, 35, 0.55);
+  color-scheme: light;
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://portfoliomeherin.vercel.app/sitemap.xml

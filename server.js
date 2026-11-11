@@ -13,9 +13,9 @@ app.disable('x-powered-by');
 app.use('/api', express.json({limit: '24kb'}));
 app.post('/api/contact', async (req, res) => {
   if (!client) return res.status(503).json({error: 'Contact storage is unavailable.'});
-  const fields = ['name', 'email', 'message'];
-  const [name, email, message] = fields.map(field => typeof req.body?.[field] === 'string' ? req.body[field].trim() : '');
-  if (!name || name.length > 100 || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !message || message.length > 4000) {
+  const fields = ['name', 'email', 'subject', 'message'];
+  const [name, email, subject, message] = fields.map(field => typeof req.body?.[field] === 'string' ? req.body[field].trim() : '');
+  if (!name || name.length > 100 || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || subject.length > 150 || !message || message.length > 4000) {
     return res.status(400).json({error: 'Enter a name, valid email address, and message.'});
   }
   const now = Date.now();
@@ -25,7 +25,7 @@ app.post('/api/contact', async (req, res) => {
   entry.count += 1;
   attempts.set(req.ip, entry);
   try {
-    await client.db().collection('messages').insertOne({name, email, message, createdAt: new Date()});
+    await client.db().collection('messages').insertOne({name, email, subject, message, createdAt: new Date()});
     res.status(201).json({ok: true});
   } catch {
     res.status(503).json({error: 'Contact storage is unavailable.'});
