@@ -1,4 +1,5 @@
-import { profile } from '../data/content.js';
+import { useEffect, useState } from 'react';
+import { heroPhrases, profile } from '../data/content.js';
 import { BrandIcon, Icon } from './icons.jsx';
 
 // Horizontal position, vertical position, and size of each background star.
@@ -25,6 +26,27 @@ function CodeCard() {
   );
 }
 
+function BuildLine() {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let timer;
+    function sync() {
+      window.clearInterval(timer);
+      if (!motion.matches) {
+        timer = window.setInterval(() => setIndex(i => (i + 1) % heroPhrases.length), 3800);
+      }
+    }
+    sync();
+    motion.addEventListener('change', sync);
+    return () => {
+      window.clearInterval(timer);
+      motion.removeEventListener('change', sync);
+    };
+  }, []);
+  return <p className="hero-line">I build <span className="rotate-phrase" key={index}>{heroPhrases[index]}</span>.</p>;
+}
+
 export default function Hero() {
   const names = profile.name.split(' ');
   const surname = names.pop();
@@ -39,15 +61,17 @@ export default function Hero() {
         <div className="intro-heading">
           <p className="occupation">{profile.role}</p>
           <h1 id="hero-title">{names.join(' ')} <em>{surname}</em></h1>
+          <BuildLine />
         </div>
         <div className="portrait-group">
           <figure className="portrait-panel">
             <img src={profile.portrait.src} alt={profile.portrait.alt}
               width="1024" height="1024" fetchPriority="high"
               style={{ objectPosition: profile.portrait.position }} />
+            <CodeCard />
             <figcaption><span className="availability-dot" />{profile.status}<span>{profile.location}</span></figcaption>
           </figure>
-          <CodeCard />
+
         </div>
         <div className="intro-details">
           <p className="hero-intro">{profile.intro}</p>
