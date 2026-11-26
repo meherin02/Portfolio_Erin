@@ -16,9 +16,9 @@ function Home({ initialSlug }) {
   return (
     <>
       <Hero />
+      <Projects initialSlug={initialSlug} />
       <About />
       <Skills />
-      <Projects initialSlug={initialSlug} />
       <ResumeSection />
       <Contact />
     </>

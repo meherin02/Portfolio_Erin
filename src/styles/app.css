@@ -1415,3 +1415,65 @@ input[aria-invalid='true']:focus, textarea[aria-invalid='true']:focus {
 @media (prefers-reduced-motion: reduce) {
   .project-card { transition: none; }
 }
+
+.editorial-hero {
+  min-height: auto;
+  padding-block: clamp(2.5rem, 6vw, 6.5rem);
+  border-bottom: 1px solid var(--line-soft);
+  background: radial-gradient(ellipse at 80% 38%, var(--glow-1), transparent 60%);
+}
+.introduction {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template: "heading portrait" auto "details portrait" auto / minmax(0, 1.25fr) minmax(0, .85fr);
+  gap: 1.4rem clamp(2rem, 6vw, 6rem);
+  align-items: center;
+}
+.intro-heading { grid-area: heading; align-self: end; }
+.occupation {
+  font: 600 .78rem/1.5 var(--font-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.3rem;
+}
+.intro-heading h1 {
+  font: 500 clamp(4rem, 7.5vw, 7.4rem)/.97 var(--font-display);
+  letter-spacing: -.065em;
+  margin: 0;
+}
+.intro-heading em {
+  display: block;
+  font-family: Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -.045em;
+  color: var(--accent);
+}
+.intro-details { grid-area: details; align-self: start; }
+.intro-details .hero-actions { margin-block: 1.6rem 1rem; }
+.portrait-panel {
+  grid-area: portrait;
+  width: min(100%, 24rem);
+  margin: 0;
+  justify-self: end;
+  border: 1px solid var(--line-strong);
+  border-radius: 8rem 1.4rem 1.4rem 1.4rem;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 18px 50px var(--glow-1);
+}
+.portrait-panel img { width: 100%; display: block; aspect-ratio: 4/5; height: auto; object-fit: cover; }
+.portrait-panel figcaption {
+  display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+  padding: .85rem 1rem; color: var(--text-2); font: 500 .75rem/1.4 var(--font-body);
+}
+.portrait-panel figcaption span:last-child { margin-left: auto; }
+.availability-dot { width: .5rem; height: .5rem; border-radius: 50%; background: var(--accent); }
+@media (max-width: 650px) {
+  .introduction { grid-template: "heading" "portrait" "details" / minmax(0,1fr); gap: 1.25rem; }
+  .intro-heading h1 { font-size: clamp(3rem, 10vw, 4.5rem); }
+  .intro-heading em { display: inline; }
+  .occupation { margin-bottom: .65rem; }
+  .portrait-panel { justify-self: start; width: min(100%, 18rem); border-top-left-radius: 4.5rem; }
+}

@@ -31,9 +31,10 @@ function ThemeToggle() {
 
 const links = [
   ['Home', '#home'],
+  ['Projects', '#projects'],
   ['About', '#about'],
   ['Skills', '#skills'],
-  ['Projects', '#projects'],
+
   ['Contact', '#contact'],
 ];
 
