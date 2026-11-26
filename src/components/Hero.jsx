@@ -1,11 +1,19 @@
 import { profile } from '../data/content.js';
 import { BrandIcon, Icon } from './icons.jsx';
 
+// Horizontal position, vertical position, and size of each background star.
+const sparkles = [[4,18,10],[16,7,8],[43,12,12],[55,32,9],[61,72,15],[94,15,14],[97,67,9],[84,91,12],[7,85,11],[35,94,7]];
+
 export default function Hero() {
   const names = profile.name.split(' ');
   const surname = names.pop();
   return (
     <section id="home" className="hero editorial-hero" aria-labelledby="hero-title">
+      <div className="hero-sparkles" aria-hidden="true">
+        {sparkles.map(([x, y, size], index) => (
+          <i key={x} style={{ '--x': x + '%', '--y': y + '%', '--size': size + 'px', '--delay': -index * 0.7 + 's' }} />
+        ))}
+      </div>
       <div className="shell introduction">
         <div className="intro-heading">
           <p className="occupation">{profile.role}</p>

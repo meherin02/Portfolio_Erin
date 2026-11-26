@@ -1365,40 +1365,40 @@ input[aria-invalid='true']:focus, textarea[aria-invalid='true']:focus {
 
 /* Visual refinement */
 :root {
-  --bg: #0c1519;
-  --bg-2: #101d20;
-  --surface: #142328;
-  --surface-2: #1a2b2e;
-  --line: #304348;
-  --line-soft: #26393d;
-  --line-strong: #4c6464;
-  --text: #f2f3e9;
-  --text-2: #b9c9c3;
-  --text-3: #91a8a0;
-  --accent: #a4dac3;
-  --accent-strong: #c7f0df;
-  --accent-ink: #112a22;
-  --mint: #d4bd8b;
+  --bg: #211923;
+  --bg-2: #291f2b;
+  --surface: #302433;
+  --surface-2: #392c3c;
+  --line: #564058;
+  --line-soft: #463448;
+  --line-strong: #796079;
+  --text: #feeff3;
+  --text-2: #e0cedb;
+  --text-3: #bda9bb;
+  --accent: #f195bc;
+  --accent-strong: #f2b0cd;
+  --accent-ink: #331623;
+  --mint: #d2ecfb;
   --radius-l: 20px;
   --radius-xl: 26px;
-  --glow-1: rgba(128, 196, 169, .12);
-  --glow-2: rgba(188, 174, 128, .07);
+  --glow-1: rgba(242, 176, 205, .12);
+  --glow-2: rgba(210, 236, 251, .07);
 }
 [data-theme='light'] {
-  --bg: #f4f5ed;
-  --bg-2: #e9efe7;
-  --surface: #fffefa;
-  --surface-2: #edf3ed;
-  --line: #ccdcd2;
-  --line-soft: #dfe9e0;
-  --line-strong: #a8bfb0;
-  --text: #1b302b;
-  --text-2: #455f56;
-  --text-3: #617a70;
-  --accent: #276a51;
-  --accent-strong: #164b38;
+  --bg: #feeff3;
+  --bg-2: #fde3eb;
+  --surface: #fff9fb;
+  --surface-2: #fde3eb;
+  --line: #e6c8d7;
+  --line-soft: #efd9e4;
+  --line-strong: #c89bb5;
+  --text: #372537;
+  --text-2: #634959;
+  --text-3: #765d70;
+  --accent: #913761;
+  --accent-strong: #75294e;
   --accent-ink: #ffffff;
-  --mint: #846b35;
+  --mint: #385d76;
 }
 .hero::before { opacity: .32; mask-image: linear-gradient(to bottom, black, transparent 75%); }
 .hero::after { opacity: .8; }
@@ -1420,7 +1420,7 @@ input[aria-invalid='true']:focus, textarea[aria-invalid='true']:focus {
   min-height: auto;
   padding-block: clamp(2.5rem, 6vw, 6.5rem);
   border-bottom: 1px solid var(--line-soft);
-  background: radial-gradient(ellipse at 80% 38%, var(--glow-1), transparent 60%);
+  background: radial-gradient(ellipse at 85% 76%, color-mix(in srgb, #d2ecfb 18%, transparent), transparent 55%), radial-gradient(ellipse at 28% 12%, color-mix(in srgb, #f2b0cd 20%, transparent), transparent 66%);
 }
 .introduction {
   position: relative;
@@ -1476,4 +1476,30 @@ input[aria-invalid='true']:focus, textarea[aria-invalid='true']:focus {
   .intro-heading em { display: inline; }
   .occupation { margin-bottom: .65rem; }
   .portrait-panel { justify-self: start; width: min(100%, 18rem); border-top-left-radius: 4.5rem; }
+}
+
+/* Decorative glints stay in the margins of the introduction. */
+.hero-sparkles { position: absolute; inset: 0; pointer-events: none; }
+.hero-sparkles i {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  aspect-ratio: 1;
+  background: var(--accent);
+  opacity: .55;
+  clip-path: polygon(50% 0, 60% 38%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 38%);
+}
+.hero-sparkles i:nth-child(even) { background: var(--mint); }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-sparkles i { animation: soft-glint 4.8s ease-in-out var(--delay) infinite alternate; }
+  .portrait-panel { animation: portrait-float 7s ease-in-out infinite; }
+}
+@keyframes soft-glint {
+  from { opacity: .22; transform: scale(.7); }
+  to { opacity: .8; transform: scale(1.12); }
+}
+@keyframes portrait-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }

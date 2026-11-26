@@ -12,7 +12,7 @@ function ThemeToggle() {
     try { localStorage.setItem('portfolio-theme', theme); } catch {}
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', theme === 'dark' ? '#0b0e12' : '#f6f8fa');
+      ?.setAttribute('content', theme === 'dark' ? '#211923' : '#feeff3');
   }, [theme]);
 
   const next = theme === 'dark' ? 'light' : 'dark';
