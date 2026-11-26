@@ -1,50 +1,40 @@
 import { profile } from '../data/content.js';
 import { BrandIcon, Icon } from './icons.jsx';
 
-const quickLinks = [
-  ['About', '#about'],
-  ['Skills', '#skills'],
-  ['Projects', '#projects'],
-  ['Background', '#background'],
-  ['Contact', '#contact'],
+const sections = [
+  ['Projects', 'projects'], ['About', 'about'], ['Skills', 'skills'],
+  ['Background', 'background'], ['Contact', 'contact'],
 ];
 
 export default function Footer() {
-  const year = new Date().getFullYear();
+  const names = profile.name.split(' ');
+  const surname = names.pop();
   return (
     <footer className="site-footer">
-      <div className="shell footer-grid">
-        <div className="footer-brand">
-          <a className="brand" href="#home">
-            <svg className="brand-mark" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
-              <rect x="1.5" y="1.5" width="41" height="41" rx="11" className="brand-box" />
-              <text x="22" y="29" textAnchor="middle" className="brand-glyph">&lt;/&gt;</text>
-            </svg>
-            <span className="brand-name">{profile.name}</span>
-          </a>
-          <p className="footer-role">{profile.role} · {profile.location}</p>
+      <div className="shell">
+        <div className="footer-grid">
+          <div>
+            <a className="footer-signature" href="/#home">{names.join(' ')} <em>{surname}</em></a>
+            <p className="footer-role">{profile.role} · {profile.location}</p>
+            <a className="footer-email" href={'mailto:' + profile.email}>
+              <Icon name="mail" size={17} /> {profile.email}
+            </a>
+          </div>
+          <nav className="footer-links" aria-label="Footer navigation">
+            <h2>Explore</h2>
+            {sections.map(([label, id]) => <a key={id} href={'/#' + id}>{label}</a>)}
+          </nav>
+          <div className="footer-links">
+            <h2>Connect</h2>
+            <a href={profile.github} target="_blank" rel="noopener noreferrer"><BrandIcon name="github" size={16} /> GitHub</a>
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer"><BrandIcon name="linkedin" size={16} /> LinkedIn</a>
+            {profile.resume && <a href={profile.resume} target="_blank" rel="noopener noreferrer">View résumé ↗</a>}
+          </div>
         </div>
-
-        <nav className="footer-nav" aria-label="Footer">
-          {quickLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
-        </nav>
-
-        <div className="footer-socials">
-          <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" title="GitHub">
-            <BrandIcon name="github" size={19} />
-          </a>
-          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" title="LinkedIn">
-            <BrandIcon name="linkedin" size={19} />
-          </a>
-          <a href={`mailto:${profile.email}`} aria-label="Send an email" title="Email">
-            <Icon name="mail" size={19} />
-          </a>
+        <div className="footer-bottom">
+          <p>© {new Date().getFullYear()} {profile.name}</p>
+          <p>Built with React, Vite &amp; Express</p>
         </div>
-      </div>
-
-      <div className="shell footer-bottom">
-        <p>© {year} {profile.name}. All rights reserved.</p>
-        <p className="footer-built">Designed & built with React, Vite & Express.</p>
       </div>
     </footer>
   );
