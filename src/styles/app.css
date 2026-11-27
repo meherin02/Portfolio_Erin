@@ -1457,7 +1457,7 @@ input[aria-invalid='true']:focus, textarea[aria-invalid='true']:focus {
   .intro-heading h1 { font-size: clamp(3rem, 10vw, 4.5rem); }
   .intro-heading em { display: inline; }
   .occupation { margin-bottom: .65rem; }
-  .portrait-group { justify-self: start; width: min(100%, 19rem); }
+  .portrait-group { justify-self: center; width: min(100%, 19rem); }
   .portrait-panel { border-top-left-radius: 4.5rem; }
 }
 
